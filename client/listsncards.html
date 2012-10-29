@@ -77,9 +77,11 @@
 <template name="allModals">
   <!-- this template shows different modals (or none) based on session "view" value -->
   {{#unless user}}
+    <div class="blur"></div><!--backgroundblur-->
     {{> welcome}}
   {{/unless}}
   {{#unless state "base"}}
+    <div class="blur"></div><!--backgroundblur-->
     {{#if state "creatingNewList"}}
       {{> createNewList}}
     {{/if}}

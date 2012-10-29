@@ -26,26 +26,42 @@ I would personally create lists for:
 
 logic:
 ======
-* everything is a list (e.g. the list of you lists is also a list) - the same template called "list" is used to render a list.
-* every list can be:
-** viewed as a list
-** viewed as cards
-** forked (current user gets a copy of the list and can now modify it)
-* every item can be:
-** simple card (name and definition)
-** card with sublists (name, definition and a sublist of examples)
-** link (link to another list or an outbound link)
-* users can suggest items to be added to lists (and list ownerd can approve, edit or disapprove)
+# everything is a list (e.g. the list of you lists is also a list) - the same template called "list" is used to render a list.
+# every list can be:
+  * viewed as a list
+  * viewed as cards
+  * forked (current user gets a copy of the list and can now modify it)
+# every item can be:
+  * simple card (name and definition)
+  * card with sublists (name, definition and a sublist of examples)
+  * link (link to another list or an outbound link)
+# users can suggest items to be added to lists (and list ownerd can approve, edit or disapprove)
 
 data structure:
 ===============
-* users (Meteor.users)
-* list {}
-** _id
-** metadata {} (all the stuff like owner, moderators, openness(private, secret, public), parentCard etc. goes here)
-** name
-** descritption (optional)
-** cards [] (array of cards. each card is an abject. each card has to have at least "_id" and "name" properties
+# users(Meteor.user()) or {}
+# list {}
+  * _id
+  * name
+  * description
+  * picUrl (if any)
+  * parent (if it's a sublist - id of the parentList or if it's a user's default "myLists" list - Meteor.userId())
+  * createdBy (userId() of the creator)
+  * ownedBy (userId() of the owner)
+  * moderators (array with userIds of moderators)
+  * contributors (array with userIds of contributors)
+  * forkedFrom (_id of the list this list was forked from (if any))
+  * privacy ("open", "secret", "private")
+  * suggestionsAllowed (true/false)
+  * items (array of item objects)
+# item {}
+  * _id
+  * name
+  * description
+  * picUrl (if any)
+  * status ("suggested", "approved", "flagged")
+  * sublists (array of ._ids of sublists like "examples" etc.)
+  
 
 key session variables indicating app state and key behavior:
 ====================================================
@@ -55,9 +71,8 @@ key session variables indicating app state and key behavior:
 * view - "list", "cards" (or something else later?)
 * state - "addingNewList", "addingNewItem" etc. used to show modals and manage other behavior (?)
 
-todo:
-=====
 Menu items: (most open in modals)
+=================================
 * create new list
 * fork button (for signed in)
 * favorite (for signed in)
@@ -67,5 +82,7 @@ Menu items: (most open in modals)
 * search my lists (for signed in - searching through my and favorited)
 * if signed in and it's my list: list settings (rename, openness, delete etc.)
 
-knownBugs:
-==========
+todo:
+=====
+* on new user login -> create a default list "UserName's Lists" for him/her
+* backbone router for history and url handling
