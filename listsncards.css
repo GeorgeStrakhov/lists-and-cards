@@ -1,0 +1,18 @@
+/* CSS declarations go here */
+
+#container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.logInOut {
+  position: absolute; top: 20px; right: 20px;
+}
+
+#actionsMenuDropdown {
+  position: absolute; top: 20px; left: 20px;
+}
+
+#theList {
+  margin-top: 55px;
+}
