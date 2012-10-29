@@ -1,13 +1,21 @@
 idea:
 =====
-Simple & mobile friendly webapp for memorizing and keeping track anything:
+Simple & mobile friendly webapp for listing anything and flicking through it. Useful for memorizing, brainstorming and more.
+You can: 
 * create unordered lists
 * every list can be viewed as a list or as a set of cards presented to you in random order
 * every card can have some data on one side and some data on the other side (so that you can get a card, try to remember and then flip it over and check if you remembered correctly)
 
+In the future adding a "karma" component to it could be interesting, so that from a community standpoint it works more like StackExchange or Quora.
+Monetization opportunities:
+* paying other people to create / fill in cards for you (mechanical turk / task rabbit style)
+* ordering printed versions of your lists as *beautiful* flashcards (moo.com style)
+* custom app packaging for corporate flashcards (flashcard-exchange style, but smarter with PhoneGap)
+* what else?
+
 usage:
 ======
-I would create lists for:
+I would personally create lists for:
 * marketing keywords with russian translations and examples (public)
 * startup ideas (private)
 * crazy words for barinstorms (secret)
@@ -39,19 +47,25 @@ data structure:
 ** descritption (optional)
 ** cards [] (array of cards. each card is an abject. each card has to have at least "_id" and "name" properties
 
-key variables indicating app state and key behavior:
+key session variables indicating app state and key behavior:
 ====================================================
-* currentList - the _.id of the active list. there is ALWAYS a an active list
-* currentCard - the _.id of the active card in this list
-* currentView - "list", "cards" (or something else later?)
+* user - the active user object. can be {}
+* list - the active list object. there is ALWAYS a an active list
+* card - the _.id of the active card in this list
+* view - "list", "cards" (or something else later?)
+* state - "addingNewList", "addingNewItem" etc. used to show modals and manage other behavior (?)
 
 todo:
 =====
-* create the base list template: iterating through list items & top sticky menu with:
-** list.name
-** fork button (for signed in)
-** favorite (for signed in)
-** suggest button (?) (for signed in)
-** search this list(?)
-** search all public lists
+Menu items: (most open in modals)
+* create new list
+* fork button (for signed in)
+* favorite (for signed in)
+* suggest button (?) (for signed in)
+* search this list(?)
+* search all public lists
+* search my lists (for signed in - searching through my and favorited)
+* if signed in and it's my list: list settings (rename, openness, delete etc.)
 
+knownBugs:
+==========

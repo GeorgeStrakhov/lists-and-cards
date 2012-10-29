@@ -1,0 +1,127 @@
+<head>
+  <title>Lists & Cards: list anything and flick through it</title>
+</head>
+
+<body>
+  {{> app}}
+</body>
+
+<template name="app">
+  <div id="container">
+    {{> allModals}} <!--special template controlling all modals and user dialogs -->
+    {{> navigation}} <!-- this is menu at the top -->
+    <div id="appWrap">
+      {{#if view "list"}}
+        {{> list}} <!-- list view -->
+      {{/if}}
+      {{#if view "cards"}}
+        {{> card}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="navigation">
+  <!-- login/logout button -->
+  {{#if user._id}}
+    <a href="#" class="btn btn-small logInOut" id="logInOut">log out</a>
+  {{else}}
+    <a href="#" class="btn btn-small logInOut">{{loginButtons}}</a>
+  {{/if}}
+  <!-- actions dropdown-->
+  <div class="dropdown" id="actionsMenuDropdown">
+    <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#">Menu <b class="caret"></b></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><a href="#" id="viewAsList">view as a list</a></li>
+      <li><a href="#" id="viewAsCards">view as cards</a></li>
+      <li><a href="#" id="searchThisList">search this list</a></li>
+      <li><a href="#" id="searchAllPublicLists">search all public lists</a></li>
+      {{#if user._id}} <!-- if user is signed in - more actions-->
+        <li><a href="#" id="viewMyLists">view my lists</a></li>
+        <li><a href="#" id="createNewList">create new list</a></li>
+      {{/if}}
+    </ul>
+  </div>
+</template>
+
+<template name="card">
+  <div id="theCard" class="well">
+    <div id="front">
+      {{card.name}}
+    </div>  
+  </div>
+  <div id="cardNav">
+    <a href="#" id="prevCard" class="btn btn-small pull-left">prev</a>
+    <a href="#" id="randCard" class="btn btn-small">random</a>
+    <a href="#" id="nextCard" class="btn btn-small pull-right">next</a>
+  </div>
+</template>
+
+<template name="list">
+  <div id="theList">
+    <h2>{{list.name}}</h2>
+    <p><em>{{list.description}}</em></p>
+    <ul class="list">
+      {{#each list.items}}
+        <li>{{> item}}</li>
+      {{/each}}
+      <li><a href="#" id="addOne">add one</a></li>
+    </ul>
+  </div>
+</template>
+
+<template name="item">
+  {{this.name}}
+</template>
+
+<template name="allModals">
+  <!-- this template shows different modals (or none) based on session "view" value -->
+  {{#unless user}}
+    {{> welcome}}
+  {{/unless}}
+  {{#unless state "base"}}
+    {{#if state "creatingNewList"}}
+      {{> createNewList}}
+    {{/if}}
+  {{/unless}}
+</template>
+
+<template name="welcome">
+  <div id="welcomeScreen" class="modal">
+    <div class="modal-header">
+      <h3>Welcome to Lists & Cards!</h3>
+    </div>
+    <div class="modal-body">
+      <p>Hello, here you can create lists of things you want to learn and then go through them one by one randomly, as if you had physical cards.</p>
+     <p>You can <a href="#" class="btn btn-small">{{loginButtons}}</a> to create your first list or <a href="#" class="btn btn-small" id="explorePublicLists">explore public lists</a></p>
+    </div>
+  </div>
+</template>
+
+<template name="createNewList">
+  <div id="createNewListModal" class="modal">
+    <div class="modal-header">
+      <h3>Create new list</h3>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="control-group">
+          <label class="control-label" for="newListName">Name:</label>
+          <div class="controls">
+            <input type="text" id="newListName" placeholder="my list">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="newListDescription">Description:</label>
+          <div class="controls">
+            <input type="text" id="newListDescription" placeholder="(optional)">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-small" id="cancelButton">cancel</a>
+      <a href="#" class="btn btn-small btn-primary" id="createNewListButton">create</a>
+    </div>
+  </div>
+</template>
