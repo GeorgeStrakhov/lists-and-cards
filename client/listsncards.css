@@ -25,6 +25,10 @@
   text-align: center;
 }
 
+.addOneForm {
+  margin-top: 10px;
+}
+
 .blur {
   position: absolute; top:0px; left: 0px;
   width: 100%;

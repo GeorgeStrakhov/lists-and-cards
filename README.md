@@ -57,7 +57,8 @@ data structure:
 # item {}
   * _id
   * name
-  * description
+  * type ("link", "textCard", "imgCard", ???)
+  * description (re-Used as URL if type="link")
   * picUrl (if any)
   * status ("suggested", "approved", "flagged")
   * sublists (array of ._ids of sublists like "examples" etc.)
@@ -84,5 +85,6 @@ Menu items: (most open in modals)
 
 todo:
 =====
-* on new user login -> create a default list "UserName's Lists" for him/her
+* implement items / cards
+* upon change of "list" - set "card" to the first card in this list.
 * backbone router for history and url handling

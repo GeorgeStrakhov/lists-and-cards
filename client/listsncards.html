@@ -65,13 +65,30 @@
       {{#each list.items}}
         <li>{{> item}}</li>
       {{/each}}
-      <li><a href="#" id="addOne">add one</a></li>
+      {{#unless myListsList}}
+        <li>
+          <a href="#" id="addOne">add one</a>
+          <div class="hide addOneForm" id="addOneForm">
+            <form class="form-inline">
+              <input type="text" id="newItemName" placeholder="new item name..."/>&nbsp;
+              <button class="btn btn-small" id="addOneButton">add</button>
+            </form>
+          </div>
+        </li>
+      {{/unless}}
+      {{#if myListsList}}
+        <li><a href="#" id="createNewList">create new</a></li>
+      {{/if}}
     </ul>
   </div>
 </template>
 
 <template name="item">
-  {{this.name}}
+  {{#if this.type "link"}}
+    <a href="#">{{this.name}}</a>
+  {{else}}
+    this item is not type "link". under construction
+  {{/if}}
 </template>
 
 <template name="allModals">
@@ -85,7 +102,28 @@
     {{#if state "creatingNewList"}}
       {{> createNewList}}
     {{/if}}
+    {{#if state "searchingThisList"}}
+      {{> search}}
+    {{/if}}
+    {{#if state "searchingAllPublicLists"}}
+      {{> search}}
+    {{/if}}
   {{/unless}}
+</template>
+
+<template name="search">
+  <div id="searchModal" class="modal">
+    <div class="modal-header">
+      <h3>Search</h3>
+    </div>
+    <div class="modal-body">
+      under construction... here we need to have a searchbox plus a conditional selector (checkbox): search current list, search my lists, search all public lists
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-small" id="cancelButton">cancel</a>
+      <a href="#" class="btn btn-small btn-primary" id="searchButton">search</a>
+    </div>
+  </div>
 </template>
 
 <template name="welcome">
