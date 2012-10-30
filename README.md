@@ -26,21 +26,21 @@ I would personally create lists for:
 
 logic:
 ======
-# everything is a list (e.g. the list of you lists is also a list) - the same template called "list" is used to render a list.
-# every list can be:
+1. everything is a list (e.g. the list of you lists is also a list) - the same template called "list" is used to render a list.
+2. every list can be:
   * viewed as a list
   * viewed as cards
   * forked (current user gets a copy of the list and can now modify it)
-# every item can be:
+3. every item can be:
   * simple card (name and definition)
   * card with sublists (name, definition and a sublist of examples)
   * link (link to another list or an outbound link)
-# users can suggest items to be added to lists (and list ownerd can approve, edit or disapprove)
+4. users can suggest items to be added to lists (and list ownerd can approve, edit or disapprove)
 
 data structure:
 ===============
-# users(Meteor.user()) or {}
-# list {}
+1. users(Meteor.user()) or {}
+2. list {}
   * _id
   * name
   * description
@@ -54,11 +54,11 @@ data structure:
   * privacy ("open", "secret", "private")
   * suggestionsAllowed (true/false)
   * items (array of item objects)
-# item {}
+3. item {}
   * _id
   * name
   * type ("link", "textCard", "imgCard", ???)
-  * description (re-Used as URL if type="link")
+  * description (re-Used as URL or id of the link it refers to if type="link")
   * picUrl (if any)
   * status ("suggested", "approved", "flagged")
   * sublists (array of ._ids of sublists like "examples" etc.)
