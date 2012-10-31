@@ -72,7 +72,7 @@ key session variables indicating app state and key behavior:
 * view - "list", "cards" (or something else later?)
 * state - "addingNewList", "addingNewItem" etc. used to show modals and manage other behavior (?)
 
-Menu items: (most open in modals)
+menu items: (most open in modals)
 =================================
 * create new list
 * fork button (for signed in)
@@ -85,6 +85,11 @@ Menu items: (most open in modals)
 
 todo:
 =====
-* implement items / cards
+* work on UI more: implement list/cards switch at the top.
+* add third "view": tiles? (for pictures & visual lists)
+* enable adding not basic cards (type: link, more details)
+* enable editing cards
+* sublists?
+* pictures on cards (where? what the logic should be?
 * upon change of "list" - set "card" to the first card in this list.
 * backbone router for history and url handling

@@ -3,9 +3,13 @@ Session.set("list", {name: "loading..."});
 
 /*initial startup configuration*/
   Meteor.startup(function () {
-    Session.set("view", "list");
-    Session.set("state", "base");
-    Session.set("list", {name: "loading..."});
+    //console.log(Session);
+    if(!Session.get("view"))
+      Session.set("view", "list");
+    if(!Session.get("state"))
+      Session.set("state", "base");
+    if(!Session.get("list"))
+      Session.set("list", {name: "loading..."});
   });
 /*end of startup configuration*/
 
@@ -57,6 +61,12 @@ Session.set("list", {name: "loading..."});
     //console.log(Session.get("list"));
     if(Session.get("list")._id) {
       Session.set("list", Lists.findOne(Session.get("list")._id));
+      //if(!(Session.get("card")))
+      if(Lists.findOne(Session.get("list")._id).items[0]) { //selecting the first card of the newly selected list
+        Session.set("card", Lists.findOne(Session.get("list")._id).items[0]);
+      } else {
+        Session.set("card", {name: "no cards yet..."});
+      }
     }
   });
 
@@ -129,12 +139,46 @@ Session.set("list", {name: "loading..."});
     Session.set("state", "base");
   };
   
+  function goToCard(whichCard) { //whichCard can be "next", "prev" or "rand"
+    console.log(whichCard);
+    var newCard = {name: "sorry, there are no cards on this list"};
+    var cards = Lists.findOne(Session.get("list")._id).items;
+    //console.log(cards);
+    if (whichCard == "rand") {
+      Session.set("card", cards[Math.floor(Math.random() * cards.length)]);
+      return;
+    }
+    if (whichCard == "next")
+      var changer = 1;
+    if (whichCard == "prev")
+      var changer = -1;
+    for (i=0; i<cards.length; i++) {
+      if(cards[i]._id == Session.get("card")._id) {        
+        if(i == (cards.length-1) && whichCard == "next") {
+          newCard = cards[0];
+        } else if(i == 0 && whichCard == "prev") {
+          newCard = cards[cards.length-1];
+        } else {
+          newCard = cards[i+changer];
+        }
+      }
+    }
+    Session.set("card", newCard);
+  }
+  
 /*end of globally accessible helper functions*/
 
 /*template specific behavior*/
+  Template.navigation.myListsList = function() {
+    return (Session.get("list").parent == Meteor.userId() && Session.get("view") == "list"); //true if this current list is myListsList and we are in the list mode
+  };
+
   Template.navigation.events = ({
     'click #logInOut' : function() {
       Meteor.logout();
+    },
+    'click #homeButton' : function() {
+      goToMyLists();
     },
     'click #createNewList' : function() {
       Session.set("state", "creatingNewList");
@@ -144,9 +188,6 @@ Session.set("list", {name: "loading..."});
     },
     'click #viewAsList' : function() {
       Session.set("view", "list");
-    },
-    'click #viewMyLists' : function() {
-      goToMyLists();
     },
     'click #searchThisList' : function() {
       Session.set("state", "searchingThisList");
@@ -205,10 +246,11 @@ Session.set("list", {name: "loading..."});
     },
     'click #addOneButton' : function() {
       var newItemName = $("#newItemName").val();
+      var newItemDescription = $("#newItemDescription").val();
       if(!newItemName || newItemName == "") {
         alert("please enter a valid item name");
       } else {
-        createNewItem({name: newItemName});
+        createNewItem({name: newItemName, description: newItemDescription});
       }
     },
   });
@@ -217,19 +259,33 @@ Session.set("list", {name: "loading..."});
     'click' : function() {
       if(this.type == "link") {
         Session.set("list", Lists.findOne(this.description)); //FIX - process normal URLs as well!
-      } else {
-        alert("not a link!") //FIX
+      }
+      if (this.type == "card") {
+        Session.set("card", this);
+        Session.set("view", "cards");
       }
     },
   });
 
   Template.card.events = ({
-    'click' : function() {
+    'click #flipCard' : function() {
+      var otherSide = "nothing here yet";
+      if($("#theCard").html() == Session.get("card").description) {
+        otherSide = Session.get("card").name;
+      } else {
+        otherSide = Session.get("card").description;
+      }
       $("#theCard").flip({
         direction: "rl",
-        content: "helloWorld!", //FIX - put in the data here
+        content: otherSide,
         color: "#F5F5F5",
       });
-    }
+    },
+    'click #prevCard' : function() {
+      goToCard("prev");
+    },
+    'click #nextCard' : function() {
+      goToCard("next");
+    },
   });
 /*end of template specific behavior*/

@@ -24,7 +24,11 @@
 <template name="navigation">
   <!-- login/logout button -->
   {{#if user._id}}
-    <a href="#" class="btn btn-small logInOut" id="logInOut">log out</a>
+    {{#if myListsList}}
+      <a href="#" class="btn btn-small logInOut" id="logInOut">log out</a>
+    {{else}}
+      <a href="#" class="btn btn-small logInOut" id="homeButton"><i class="icon-home"></i></a>
+    {{/if}}
   {{else}}
     <a href="#" class="btn btn-small logInOut">{{loginButtons}}</a>
   {{/if}}
@@ -37,7 +41,6 @@
       <li><a href="#" id="searchThisList">search this list</a></li>
       <li><a href="#" id="searchAllPublicLists">search all public lists</a></li>
       {{#if user._id}} <!-- if user is signed in - more actions-->
-        <li><a href="#" id="viewMyLists">view my lists</a></li>
         <li><a href="#" id="createNewList">create new list</a></li>
       {{/if}}
     </ul>
@@ -46,14 +49,12 @@
 
 <template name="card">
   <div id="theCard" class="well">
-    <div id="front">
       {{card.name}}
-    </div>  
   </div>
   <div id="cardNav">
-    <a href="#" id="prevCard" class="btn btn-small pull-left">prev</a>
-    <a href="#" id="randCard" class="btn btn-small">random</a>
-    <a href="#" id="nextCard" class="btn btn-small pull-right">next</a>
+    <a href="#" id="prevCard" class="btn btn-small pull-left"><i class="icon-arrow-left"></i></a>
+    <a href="#" id="flipCard" class="btn btn-small"><i class="icon-retweet"></i></a>
+    <a href="#" id="nextCard" class="btn btn-small pull-right"><i class="icon-arrow-right"></i></a>
   </div>
 </template>
 
@@ -71,6 +72,7 @@
           <div class="hide addOneForm" id="addOneForm">
             <form class="form-inline">
               <input type="text" id="newItemName" placeholder="new item name..."/>&nbsp;
+              <input type="text" id="newItemDescription" placeholder="optional description or URL"/>&nbsp;
               <button class="btn btn-small" id="addOneButton">add</button>
             </form>
           </div>
