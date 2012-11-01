@@ -11,6 +11,7 @@ Session.set("list", {name: "loading..."});
     if(!Session.get("list"))
       Session.set("list", {name: "loading..."});
   });
+  
 /*end of startup configuration*/
 
 /*globally accessible app state values. can be seen from any template*/
@@ -169,6 +170,18 @@ Session.set("list", {name: "loading..."});
 /*end of globally accessible helper functions*/
 
 /*template specific behavior*/
+  Template.navigation.rendered = function() {
+    var view = Session.get("view");
+    //console.log(view);
+    $(".viewSwitchButton").removeClass("active");
+    if (view == "list")
+      $("#viewAsListButton").addClass("active");
+    if (view == "cards")
+      $("#viewAsCardButton").addClass("active");
+    if (view == "tiles")
+      $("#viewAsTilesButton").addClass("active");
+  };
+  
   Template.navigation.myListsList = function() {
     return (Session.get("list").parent == Meteor.userId() && Session.get("view") == "list"); //true if this current list is myListsList and we are in the list mode
   };
@@ -183,11 +196,14 @@ Session.set("list", {name: "loading..."});
     'click #createNewList' : function() {
       Session.set("state", "creatingNewList");
     },
-    'click #viewAsCards' : function() {
+    'click #viewAsCardButton' : function() {
       Session.set("view", "cards");
     },
-    'click #viewAsList' : function() {
+    'click #viewAsListButton' : function() {
       Session.set("view", "list");
+    },
+    'click #viewAsTilesButton' : function() {
+      Session.set("view", "tiles");
     },
     'click #searchThisList' : function() {
       Session.set("state", "searchingThisList");

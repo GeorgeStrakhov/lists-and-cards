@@ -17,33 +17,42 @@
       {{#if view "cards"}}
         {{> card}}
       {{/if}}
+      {{#if view "tiles"}}
+        under construction...
+      {{/if}}
     </div>
   </div>
 </template>
 
 <template name="navigation">
-  <!-- login/logout button -->
-  {{#if user._id}}
-    {{#if myListsList}}
-      <a href="#" class="btn btn-small logInOut" id="logInOut">log out</a>
-    {{else}}
-      <a href="#" class="btn btn-small logInOut" id="homeButton"><i class="icon-home"></i></a>
-    {{/if}}
-  {{else}}
-    <a href="#" class="btn btn-small logInOut">{{loginButtons}}</a>
-  {{/if}}
-  <!-- actions dropdown-->
-  <div class="dropdown" id="actionsMenuDropdown">
-    <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#">Menu <b class="caret"></b></a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-      <li><a href="#" id="viewAsList">view as a list</a></li>
-      <li><a href="#" id="viewAsCards">view as cards</a></li>
-      <li><a href="#" id="searchThisList">search this list</a></li>
-      <li><a href="#" id="searchAllPublicLists">search all public lists</a></li>
-      {{#if user._id}} <!-- if user is signed in - more actions-->
-        <li><a href="#" id="createNewList">create new list</a></li>
+  <div class="topNavigation">
+    <!-- actions dropdown-->
+    <div class="dropdown pull-left align-left" id="actionsMenuDropdown">
+      <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#">menu&nbsp;<b class="caret"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a href="#" id="searchThisList">search this list</a></li>
+        <li><a href="#" id="searchAllPublicLists">search all public lists</a></li>
+        {{#if user._id}} <!-- if user is signed in - more actions-->
+          <li><a href="#" id="createNewList">create new list</a></li>
+        {{/if}}
+      </ul>
+    </div>
+    <!-- view switch -->
+    <div class="btn-group viewSwitch" data-toggle="buttons-radio">
+      <button type="button" class="btn btn-small viewSwitchButton" id="viewAsListButton">list</button>
+      <button type="button" class="btn btn-small viewSwitchButton"  id="viewAsCardButton">card</button>
+      <button type="button" class="btn btn-small viewSwitchButton"  id="viewAsTilesButton">tiles</button>
+    </div>
+    <!-- login/logout button -->
+    {{#if user._id}}
+      {{#if myListsList}}
+        <a href="#" class="btn btn-small pull-right logInOut" id="logInOut"><i class="icon-off"></i></a>
+      {{else}}
+        <a href="#" class="btn btn-small pull-right logInOut" id="homeButton"><i class="icon-home"></i></a>
       {{/if}}
-    </ul>
+    {{else}}
+      <a href="#" class="btn btn-small pull-right logInOut">{{loginButtons}}</a>
+    {{/if}}
   </div>
 </template>
 

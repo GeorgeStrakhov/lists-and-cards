@@ -1,20 +1,29 @@
 /* CSS declarations go here */
 
 #container {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px;
 }
 
 .logInOut {
-  position: absolute; top: 20px; right: 20px;
+  /*position: fixed; top: 20px; right: 20px;*/
 }
 
-#actionsMenuDropdown {
-  position: absolute; top: 20px; left: 20px;
+.topNavigation {
+  min-height: 35px;
+  text-align: center;
+}
+
+.viewSwitch {
+  display: inline;
+  position: relative;
+}
+
+.align-left {
+  text-align: left;
 }
 
 #appWrap {
-  margin-top: 65px;
+  margin-top: 10px;
 }
 
 #theCard {
